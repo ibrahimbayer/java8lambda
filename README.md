@@ -6,3 +6,4 @@ Scenarios to cover
 
 * Filter to list
 * Map to list
+* Math operations "sum,average,max,min"

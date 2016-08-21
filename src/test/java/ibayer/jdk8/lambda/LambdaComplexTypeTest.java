@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,13 +43,22 @@ public class LambdaComplexTypeTest {
    * The Person type will be converted to String type by using stream map method
    */
   @Test
-  public void testMapLambda() {
-    List<String> personSurnamesList = personList.stream().map(person -> person.getSurname())
+  public void testMapToSurnameStringLambda() {
+    List<String> personSurnamesList = personList.stream().map(Person::getSurname)
         .collect(Collectors.toList());
     
     Assert.assertNotNull(personSurnamesList);
     Assert.assertEquals(3, personSurnamesList.size());
     Assert.assertEquals(SEARCH_SURNAME_CRITERIA, personSurnamesList.get(0));
+  }
+  
+  @Test
+  public void testConcetenateSurnamesToString(){
+    String response = personList.stream().map(Person::getSurname).collect(Collectors.joining("/"));
+    // test repsonse string containing surnames, expected result : Smith/Doe/Smith
+    Assert.assertThat(response, CoreMatchers.startsWith("Smith"));
+    Assert.assertThat(response, CoreMatchers.containsString("Doe"));
+    Assert.assertThat(response, CoreMatchers.endsWith("Smith"));
   }
   
 }
